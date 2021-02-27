@@ -1,11 +1,11 @@
-var user =require('../database/dataMethod');
+var user =require('../database/db');
 var express = require('express');
 var router = express.Router();
 var qs =require('querystring');
 var url = require('url');
 var bodyParser = require("body-parser");
 var createCode = require('./nodemailer/tools');
-var nodemail = require('./nodemailer/nodemailer')
+var sendmail = require('./nodemailer/nodemailer')
 var info={code:1,msg:"请输入验证码"} //后端返回给前端的信息
 var tcode = "";
 var time = ""; 
@@ -20,7 +20,7 @@ router.use(bodyParser.json());
 
 router.post('/email',async function(req,res,next){
         
-    //console.log('body111',req.body);   
+    console.log('body111',req.body);   
     var code = await createCode();
     console.log('code',code);
     //查看是否注册过，可注册：0；不可：1
@@ -41,7 +41,7 @@ router.post('/email',async function(req,res,next){
         tcode = code;
         console.log('tcode',tcode)
         time = (new Date()).getTime();
-        await nodemail(mail);
+        await sendmail(mail);
         console.log('验证码已发送')
 
     }else{
