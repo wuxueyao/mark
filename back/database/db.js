@@ -1,13 +1,13 @@
 const express = require('express');
 const mysql = require('mysql');
-const db = mysql.createConnection({
+const database = mysql.createConnection({
     host:"localhost",
     user:'root',
     // password:'123321',
     database:'picturemark',
     port:3306
 })
-db.connect((err)=>{
+database.connect((err)=>{
     if(err) throw err;
     console.log('数据库连接成功!')
 })
@@ -21,7 +21,7 @@ db.connect((err)=>{
 async function selectEmail(email){
     // let email="123@163.com";
     let sql = `SELECT * FROM user WHERE email = '${email}'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -40,7 +40,7 @@ async function login(email,pass){
     // let email="123@163.com";
     // let pass = "lu";
     let sql = `SELECT * FROM user WHERE email = '${email}' and pass = '${pass}'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -56,7 +56,7 @@ async function login(email,pass){
 async function showPictures(uid){
     // uid = '0001'
     let sql = `SELECT * FROM picture WHERE uid='${uid}'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -74,7 +74,7 @@ async function showPictures(uid){
 async function openPicture(uid,pid){
     // uid = '0001'
     let sql = `SELECT * FROM mark WHERE uid='${uid}' AND pid = '${pid}'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -91,14 +91,14 @@ async function openPicture(uid,pid){
  * user，picture，mark 添加数据都在这里添加 传入要操作的表名和数据即可
  * 因为这个是新增数据 所以不用考虑是哪个表的id
  * @param {string} table 
- * @param {string} msg 
+ * @param {object} msg 
  */
 async function addMsg(table,msg){
-    table='picture'
+    // table='picture'
     let sql = `INSERT INTO ${table} SET  ?`;
     // msg = {uname:'亲爱的小西瓜',pass:'lu',email:'123@163.com',uid:'0004'}
-    msg = {pname:'这个标记是我做的记号',pid:'0001',uid:'0003'}
-    let retdata = db.query(sql,msg,(err,result)=>{
+    // msg = {pname:'这个标记是我做的记号',pid:'0001',uid:'0003'}
+    let retdata = database.query(sql,msg,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -123,13 +123,13 @@ async function delMsg(table,id){
             field = 'uid';
             let sql1 = `DELETE FROM mark WHERE uid = '${id}'`;
             let sql2= `DELETE FROM picture WHERE uid = '${id}'`;
-            db.query(sql1);
-            db.query(sql2);
+            database.query(sql1);
+            database.query(sql2);
             break;
         case 'picture':
             field = 'pid';
             let sql1= `DELETE FROM mark WHERE pid = '${id}'`;
-            db.query(sql1);
+            database.query(sql1);
             break;
         case 'mark':
             field = 'mid';
@@ -139,7 +139,7 @@ async function delMsg(table,id){
 
     }
     let sql = `DELETE FROM ${table} WHERE ${field} = '${id}'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -178,7 +178,7 @@ async function editById(table,msg,id){
 
     }
     let sql = `UPDATE ${table} SET ${msg} WHERE ${field} = '${id}'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -194,8 +194,8 @@ async function editById(table,msg,id){
  * @param {string} name
  */
 async function selectMsgByName(table,name){
-    var table = 'picture';
-    var name = '安怡';
+    // var table = 'picture';
+    // var name = '安怡';
     var field;
     switch(table){
         case 'user':
@@ -209,7 +209,7 @@ async function selectMsgByName(table,name){
 
     }
     let sql = `SELECT * FROM ${table} WHERE ${field} LIKE '%${name}%'`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -224,7 +224,7 @@ async function selectMsgByName(table,name){
  */
 async function selectMsg(table){
     let sql = `SELECT * FROM ${table}`;
-    let retdata = db.query(sql,(err,result)=>{
+    let retdata = database.query(sql,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -233,7 +233,10 @@ async function selectMsg(table){
     });
 }
 
-db.end();
+var db = {
+    selectEmail,login,showPictures,openPicture,addMsg,delMsg,editById,selectMsgByName,selectMsg
+}
 module.exports = db;
+// database.end();
 
 
