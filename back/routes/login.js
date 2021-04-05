@@ -8,19 +8,28 @@ router.use(bodyParser.urlencoded({extended:true}));
 router.use(bodyParser.json());
 
 router.post('/',async function(req,res,next){
-    console.log(req.body)
+    // console.log(req.body)
     var mail = req.body.email;
     var pass = req.body.pass;
     var selectEmail = await db.selectEmail(mail);
-    if(selectEmail == 0){
-        var message = {code:1,id:null,msg:"该邮箱未注册，请先注册"}
+    // console.log(selectEmail)
+    if(!selectEmail.length){
+        var message = {code:1,id:null,msg:"该邮箱未注册，请先注册"};
+        // console.log(message)
     }else{
         var data = await db.login(mail,pass);
-        if(data == 1){
+        // console.log(data)
+        if(!data.length){
             var message = {code:1,id:null,msg:"邮箱或密码有误"}
         }else{
-            var username = '用户' + mail.substring(0,6);
-            var message = {code:0,data:{"uid":data.uid,"uname":data.uname,"age":data.uage,"uimg":data.uimg},msg:username+',欢迎回来！'}
+            var message = {
+                code:0,
+                data:{"uid":data[0].uid,
+                    "uname":data[0].uname,
+                    "age":data[0].uage,
+                    "uimg":data[0].uimg
+                },msg:data[0].uname+',欢迎回来！'}
+            console.log(message)
         }
     }
     res.json(message)

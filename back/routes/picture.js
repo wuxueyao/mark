@@ -8,7 +8,7 @@ router.use(bodyParser.urlencoded({extended:true}));
 router.use(bodyParser.json());
 
 router.post('/',async function(req,res,next){
-    console.log(req.body);
+    console.log(req.body)
     
 })
 

@@ -5,69 +5,97 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <form action="http://localhost:3001/resign/email" method="post" enctype="application/x-www-form-urlencoded">
-        <input type="email" name="email" placeholder="邮箱"><br>
-        <input type="text" name="passwd" placeholder="密码"><br>
-        <button type="submit" name="certain">提交</button>
-    </form>
-    <form action="http://localhost:3001/login" method="post" enctype="application/x-www-form-urlencoded">
-        <input type="email" name="email" placeholder="邮箱"><br>
-        <input type="text" name="passwd" placeholder="密码"><br>
-        <button type="submit" name="certain">登录</button>
-    </form> -->
     <div>
-        <input type="email" id="email" placeholder="邮箱"><br>
-        <input type="text" name="passwd" placeholder="密码"><br>
-        <button type="submit" name="certain" onclick="getCode()">登录</button>
-    </div>
-    <!-- <div>
         <p>
             <input type='email' name='email' id="email" placeholder='请输入邮箱...' required/>
             <button type="button" onclick="getCode()">获取验证码</button>
         </p>
         <p>
-            <input type='text' name='confirm' placeholder='验证码' />
+            <input type='text' name='confirmcode' id="confirmcode" placeholder='验证码' />
         </p>
         <p>
-            <input name='name' placeholder='用户名'/>
+            <input type='password' name='pass' id="pass" placeholder='密码'/>
         </p>
         <p>
-            <input type='password' name='pass' placeholder='密码'/>
+            <input type='password' name='confirmpass' id="confirmpass" placeholder='确认密码'/>
         </p>
-        <button type="submit">
+        <button type="submit" onclick="resign()">
             立即注册
         </button>
         <li>注册即同意《用户协议》</li>
-    </div> -->
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <div>
+        <p>
+            <input type='email' name='email' id="loemail" placeholder='请输入邮箱...' required/>
+        </p>
+        <p>
+            <input type='password' name='pass' id="lopass" placeholder='密码'/>
+        </p>
+        <button type="submit" onclick="login()">
+            登录
+        </button>
+        <li>注册即同意《用户协议》</li>
+    </div>
 </body>
 <script>
+    var email = document.getElementById('email');
+    var confirmcode = document.getElementById('confirmcode');
+    var pass = document.getElementById('pass');
+    var loemail = document.getElementById('loemail');
+    var lopass = document.getElementById('lopass');
+
+    // 获取验证码
     function getCode(){
-        // var mail = document.getElementById('email');
-        // console.log('触发');
-        // var url = 'http://localhost:3001/lover/loverlist?loverid=200001';
-        // fetch(url,{
-        //     method:'GET',
-        // })
-        // .then(res=>res.json())
-        // .then(res=>{
-        //     console.log('res1',res)
-        // })
-
-
-        var mail = document.getElementById('email');
-        console.log('mail',mail.value);
+        // console.log('mail',mail.value);
         // console.log('mailtype',typeof(mail.value));
-        var url = 'http://localhost:3001/login';
+        var url = 'http://127.0.0.1:3001/resign/email';
         fetch(url,{
             method:'POST',
-            // 'Content-Type': 'application/json',
-            body:mail.value
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:`email=${email.value}`
         }).then(res=>res.json())
         .then(res=>{
             console.log('res',res)
         })
+    }
+    // 注册
+    function resign(){
+        // console.log('mail',email.value);
+        // console.log('mailtype',typeof(mail.value));
+        var url = 'http://127.0.0.1:3001/resign/message';
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },  
+            body:`email=${email.value}&confirmcode=${confirmcode.value}&pass=${pass.value}`
+        }).then(res=>res.json())
+        .then(res=>{
+            console.log('res',res)
+        })
+    }
 
-        
+    // 登录
+    function login(){
+        // console.log('mail',email.value);
+        // console.log('mailtype',typeof(mail.value));
+        var url = 'http://127.0.0.1:3001/login';
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },  
+            body:`email=${loemail.value}&pass=${lopass.value}`
+        }).then(res=>res.json())
+        .then(res=>{
+            console.log('res',res)
+        })
     }
 </script>
 </html>
+<!-- curl -d'email=234' -X POST http://localhost:3001/resign/email -->

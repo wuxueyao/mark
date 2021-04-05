@@ -1,0 +1,41 @@
+
+.menu{
+    /* background: #ccc; */
+    text-align: center;
+    position: fixed;
+    left: 35%;
+    top: 30%;   
+}
+.menu_block{
+    width: 30vw;
+    height: 30vh;
+    /* background: #000; */
+    display: inline-block;
+}
+.menu_block input{
+    width: 25vw;
+    height: 6.5vh;
+    font-size:medium;
+    margin-top: 1vh;
+}
+.menu_block button{
+    background: #fff;
+    margin-top: 1vh;
+    width: 12vw;
+    height: 8vh;
+    font-size: medium;
+    letter-spacing:0.5em;
+}
+#lbtn{
+    margin-right: 1vh;
+    background-color: khaki;
+}
+#rbtn{
+    margin-left: 1vh;
+    
+}
+#rbtn a{
+    color: #000;
+    text-decoration: none;
+    
+}

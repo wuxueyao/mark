@@ -19,15 +19,16 @@ database.connect((err)=>{
  * @param {string} email 
  */
 async function selectEmail(email){
-    // let email="123@163.com";
     let sql = `SELECT * FROM user WHERE email = '${email}'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
-        console.log('retdata'+retdata)
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
 }
 
@@ -40,14 +41,16 @@ async function login(email,pass){
     // let email="123@163.com";
     // let pass = "lu";
     let sql = `SELECT * FROM user WHERE email = '${email}' and pass = '${pass}'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                resolve(result);
+            }
+        });
     });
-    console.log('retdata'+retdata)
+    // console.log('retdata'+retdata)
 }
 /**
  * 登录工具之后可以看到该用户添加到工具中的图片，数据表是picture
@@ -56,12 +59,15 @@ async function login(email,pass){
 async function showPictures(uid){
     // uid = '0001'
     let sql = `SELECT * FROM picture WHERE uid='${uid}'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
     // console.log('retdata'+retdata)
 
@@ -74,12 +80,15 @@ async function showPictures(uid){
 async function openPicture(uid,pid){
     // uid = '0001'
     let sql = `SELECT * FROM mark WHERE uid='${uid}' AND pid = '${pid}'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
     // console.log('retdata'+retdata)
 
@@ -95,17 +104,20 @@ async function openPicture(uid,pid){
  */
 async function addMsg(table,msg){
     // table='picture'
+    // msg = {uname:'亲爱的小西瓜',pass:'lu',email:'123@163.com',uid:'0005'}
     let sql = `INSERT INTO ${table} SET  ?`;
-    // msg = {uname:'亲爱的小西瓜',pass:'lu',email:'123@163.com',uid:'0004'}
+    // let sql = `INSERT INTO ${table} SET  ?`;
     // msg = {pname:'这个标记是我做的记号',pid:'0001',uid:'0003'}
-    let retdata = database.query(sql,msg,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,msg,(err,result)=>{
+            if(err){
+                resolve(1);
+            }else{
+                // console.log(result);
+                resolve(0);
+            }
+        });
     });
-    // console.log('retdata'+retdata)
 }
 
 /**
@@ -139,12 +151,15 @@ async function delMsg(table,id){
 
     }
     let sql = `DELETE FROM ${table} WHERE ${field} = '${id}'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
 }
 
@@ -178,12 +193,15 @@ async function editById(table,msg,id){
 
     }
     let sql = `UPDATE ${table} SET ${msg} WHERE ${field} = '${id}'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
     
 }
@@ -209,12 +227,15 @@ async function selectMsgByName(table,name){
 
     }
     let sql = `SELECT * FROM ${table} WHERE ${field} LIKE '%${name}%'`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
 }
 
@@ -224,17 +245,28 @@ async function selectMsgByName(table,name){
  */
 async function selectMsg(table){
     let sql = `SELECT * FROM ${table}`;
-    let retdata = database.query(sql,(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-        }
+    return new Promise(resolve => {
+        database.query(sql,(err,result)=>{
+            if(err){
+                return err;
+            }else{
+                // console.log(result);
+                resolve(result);
+            }
+        });
     });
 }
 
 var db = {
-    selectEmail,login,showPictures,openPicture,addMsg,delMsg,editById,selectMsgByName,selectMsg
+    selectEmail,
+    login,
+    showPictures,
+    openPicture,
+    addMsg,
+    delMsg,
+    editById,
+    selectMsgByName,
+    selectMsg
 }
 module.exports = db;
 // database.end();
