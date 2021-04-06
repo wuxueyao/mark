@@ -3,7 +3,7 @@ const express = require('express'),
       login = require('./routes/login'), //登陆
       resign =require('./routes/register');
       mark =require('./routes/mark');
-      mark =require('./routes/picture');
+      img =require('./routes/img');
       //image = require('./routes/image'); //单张图片,使用服务器进行存储
     
       
@@ -19,6 +19,6 @@ app.all('*', function (req, res, next) {
 app.use('/login',login);
 app.use('/resign',resign);
 app.use('/mark',mark);
-app.use('/picture',picture);
+app.use('/img',img);
 //app.use('/image',image);
 app.listen(3001);

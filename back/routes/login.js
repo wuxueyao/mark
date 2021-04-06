@@ -20,13 +20,13 @@ router.post('/',async function(req,res,next){
         var data = await db.login(mail,pass);
         // console.log(data)
         if(!data.length){
-            var message = {code:1,id:null,msg:"邮箱或密码有误"}
+            var message = {code:1,msg:"邮箱或密码有误"}
         }else{
             var message = {
                 code:0,
                 data:{"uid":data[0].uid,
                     "uname":data[0].uname,
-                    "age":data[0].uage,
+                    "uage":data[0].uage,
                     "uimg":data[0].uimg
                 },msg:data[0].uname+',欢迎回来！'}
             console.log(message)
