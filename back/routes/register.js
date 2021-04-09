@@ -68,12 +68,12 @@ router.post('/message', async function(req,res,next){
         var now = (new Date()).getTime();
         if(confirmcode == tcode && now-time <= 600000){
             // msg = {uname:'亲爱的小西瓜',pass:'lu',email:'123@163.com',uid:'0004'}
-            var person={
+            var user={
                 uname:name,
                 email:email,
                 pass:pass
             };
-            var add = await db.addMsg('user',person);
+            var add = await db.addMsg('user',user);
             console.log('add',add);
             if(add === 0 ){
                 info={

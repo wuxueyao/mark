@@ -123,6 +123,7 @@
     // 图片上传
     function upPicture(){
         var file=document.getElementById('fileupload').files[0];
+        var uid = 1;
         var url = 'http://127.0.0.1:3001/img';
 		var reader = new FileReader();
         var img='';
@@ -141,7 +142,7 @@
                     'Content-Type':'application/json;charset=UTF-8'
                 },  
                 // body:`data=${e.target.result}`
-                body:JSON.stringify({data:data})
+                body:JSON.stringify({data:data,uid:uid})
             }).then(res=>res.json())
             .then(res=>{
                 console.log('res',res)

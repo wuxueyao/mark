@@ -9,6 +9,7 @@ router.use(bodyParser.json({limit:'50mb'}));
 router.use(bodyParser.urlencoded({limit:'50mb',extended:true}));
 router.use(bodyParser.text());
 
+// 往服务器传图片
 router.post('/', function (req, res) {
     var data = req.body.data;
     // var data = jsonBody['_parts'][0][1];
@@ -31,6 +32,7 @@ router.post('/', function (req, res) {
             res.end(JSON.stringify(response));
     })
 });
+// 通过url查看图片
 router.get('/showimg/:name',function(req,res){
     var filename = req.params.name;
     var buf = fs.readFileSync(`D:/server/img/${filename}`);
@@ -39,4 +41,31 @@ router.get('/showimg/:name',function(req,res){
     res.end(img);
 })
 
+// 保存记录
+router.post('/modify', async function(req,res,next){
+    var pname = req.body.pname,
+        imgurl = req.body.imgurl,
+        uid = req.body.uid;
+        // console.log(name)
+    var picture = {
+        pname:pname,
+        uid:uid,
+        imgurl:imgurl
+    }
+    var add = await db.addMsg('user',picture);
+    console.log('add',add);
+    if(add === 0 ){
+        info={
+            code:0,
+            msg:"保存成功"
+        }       
+    }else{
+        info={
+            code:1,
+            msg:"保存失败，请重试"
+        }  
+    }
+    
+    res.json(info);
+});
 module.exports = router;

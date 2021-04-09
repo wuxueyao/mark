@@ -7,6 +7,7 @@ const fs = require('fs');
 router.use(bodyParser.urlencoded({extended:true}));
 router.use(bodyParser.json());
 
+// 登录
 router.post('/',async function(req,res,next){
     // console.log(req.body)
     var mail = req.body.email;
@@ -31,6 +32,31 @@ router.post('/',async function(req,res,next){
                 },msg:data[0].uname+',欢迎回来！'}
             console.log(message)
         }
+    }
+    res.json(message)
+})
+
+// 展示所有历史记录
+router.post('/history',async function(req,res,next){
+    // console.log(req.body)
+    var uid = req.body.uid;
+    var showPictures = await db.showPictures(uid);
+    var message = {
+        code:0,
+        data:showPictures
+    }
+    res.json(message)
+})
+
+// 查看具体图像记录
+router.post('/history/showing',async function(req,res,next){
+    // console.log(req.body)
+    var uid = req.body.uid;
+    var pid = req.body.pid;
+    var openPicture = await db.openPicture(uid,pid);
+    var message = {
+        code:0,
+        data:openPicture
     }
     res.json(message)
 })
