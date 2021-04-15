@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/login.css"> 
+</head>
+<body>
+    <div class="title">
+        <h1>OIA-TOOL</h1>
+        <p>在线图像标注工具</p>
+    </div>
+    <div class="menu">
+        <span class="menu_title title_active" id="lobtn" onclick="changebtn(this)">登录</span>
+        <span class="menu_title" id="rebtn" onclick="changebtn(this)">注册</span>
+        <div id='loblock' class="menu_block">
+            <input class="menu_line" type="email" id='lomail'name='lomail' placeholder='请输入邮箱'/>
+            <input class="menu_line" type="password" id='lopass' name='lopass' placeholder='请输入密码'/>
+            <button class="menu_btn" onclick="login()">立即登录</button>
+        </div>
+        <div id='reblock' class="menu_none">
+            <input class="menu_line" type="email" id='remail' name='remail' placeholder='请输入邮箱'/>
+            <input class="menu_line" type="password" id='repass' name='repass' placeholder='请输入密码'/>
+            <input class="menu_line" type="text" id='recode' maxlength="6" name='recode' placeholder='请输入验证码'/>
+            <span class="menu_span" onclick="getCode()">获取验证码</span>
+            <button class="menu_btn" onclick="resign()">立即注册</button>
+        </div>
+    </div>
+</body>
+<script>
+    var lobtn=document.getElementById('lobtn');
+    var rebtn=document.getElementById('rebtn');
+    var loblock=document.getElementById('loblock');
+    var reblock=document.getElementById('reblock');
+    var lomail=document.getElementById('lomail');
+    var lopass=document.getElementById('lopass');
+    var remail=document.getElementById('remail');
+    var repass=document.getElementById('repass');
+    var recode=document.getElementById('recode');
+    var inputlist=document.getElementsByClassName('menu_line');
+    // 输入框聚焦效果
+    (function(d,w){
+        for(var i = 0;i < inputlist.length;i ++){
+            inputlist[i].classList.remove('line_focus');
+            (function(j){
+                let e = inputlist[j];
+                e.onfocus=()=>{
+                    e.classList.add('line_focus');
+                }
+                e.onblur=()=>{
+                    e.classList.remove('line_focus');
+                }
+            })(i)
+            
+        }
+    })(document,window)
+    // 切换登录注册标签
+    function changebtn(e){
+        e.classList.add("title_active");
+        if(e.id=='lobtn'){
+            rebtn.classList.remove("title_active");
+            loblock.setAttribute('class','menu_block');
+            reblock.setAttribute('class','menu_none');
+        }else if(e.id=='rebtn'){
+            lobtn.classList.remove("title_active");
+            reblock.setAttribute('class','menu_block');
+            loblock.setAttribute('class','menu_none');
+        }else ;
+    }
+    // 登录
+    function login(){
+        var url = 'http://127.0.0.1:3001/login';
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },  
+            body:`email=${lomail.value}&pass=${lopass.value}`
+        }).then(res=>res.json())
+        .then(res=>{
+            alert(res.msg)
+            // console.log('res',res)
+        })
+    }
+    // 获取验证码
+    function getCode(){
+        var url = 'http://127.0.0.1:3001/resign/email';
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:`email=${remail.value}`
+        }).then(res=>res.json())
+        .then(res=>{
+            // console.log('res',res)
+            alert(res.msg);
+        })
+    }
+    // 注册
+    function resign(){
+        // console.log('mail',email.value);
+        // console.log('mailtype',typeof(mail.value));
+        var url = 'http://127.0.0.1:3001/resign/message';
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },  
+            body:`email=${remail.value}&confirmcode=${recode.value}&pass=${repass.value}`
+        }).then(res=>res.json())
+        .then(res=>{
+            // console.log('res',res)
+            alert(res.msg)
+        })
+    }
+</script>
+</html>
