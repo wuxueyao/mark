@@ -71,50 +71,64 @@
     }
     // 登录
     function login(){
-        var url = 'http://127.0.0.1:3001/login';
-        fetch(url,{
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },  
-            body:`email=${lomail.value}&pass=${lopass.value}`
-        }).then(res=>res.json())
-        .then(res=>{
-            alert(res.msg)
-            // console.log('res',res)
-        })
+        let mail=lomail.value,pass=lopass.value;
+        if(!mail || !pass){
+            alert('请输入完整的账号信息')
+        }else{
+
+            var url = 'http://127.0.0.1:3001/login';
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },  
+                body:`email=${lomail.value}&pass=${lopass.value}`
+            }).then(res=>res.json())
+            .then(res=>{
+                alert(res.msg)
+                // console.log('res',res)
+            })
+        }
     }
     // 获取验证码
     function getCode(){
-        var url = 'http://127.0.0.1:3001/resign/email';
-        fetch(url,{
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body:`email=${remail.value}`
-        }).then(res=>res.json())
-        .then(res=>{
-            // console.log('res',res)
-            alert(res.msg);
-        })
+        let mail=remail.value;
+        if(!mail){
+            alert('请输入邮箱')
+        }else{
+            var url = 'http://127.0.0.1:3001/resign/email';
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:`email=${remail.value}`
+            }).then(res=>res.json())
+            .then(res=>{
+                // console.log('res',res)
+                alert(res.msg);
+            })
+        }
     }
     // 注册
     function resign(){
-        // console.log('mail',email.value);
-        // console.log('mailtype',typeof(mail.value));
-        var url = 'http://127.0.0.1:3001/resign/message';
-        fetch(url,{
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },  
-            body:`email=${remail.value}&confirmcode=${recode.value}&pass=${repass.value}`
-        }).then(res=>res.json())
-        .then(res=>{
-            // console.log('res',res)
-            alert(res.msg)
-        })
+        let mail=remail.value,pass=repass.value,confirmcode=recode.value;
+        if(!mail || !pass || !confirmcode){
+            alert('请输入完整信息')
+        }else{
+            var url = 'http://127.0.0.1:3001/resign/message';
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },  
+                body:`email=${remail.value}&confirmcode=${recode.value}&pass=${repass.value}`
+            }).then(res=>res.json())
+            .then(res=>{
+                // console.log('res',res)
+                alert(res.msg)
+            })
+        }
     }
 </script>
 </html>
