@@ -41,7 +41,7 @@ router.get('/showimg/:name',function(req,res){
     res.end(img);
 })
 
-// 保存记录
+// 保存图像记录
 router.post('/modify', async function(req,res,next){
     var pname = req.body.pname,
         imgurl = req.body.imgurl,

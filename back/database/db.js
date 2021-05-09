@@ -133,14 +133,14 @@ async function delMsg(table,id){
     switch(table){
         case 'user':
             field = 'uid';
-            let sql1 = `DELETE FROM mark WHERE uid = '${id}'`;
-            let sql2= `DELETE FROM picture WHERE uid = '${id}'`;
+            var sql1 = `DELETE FROM mark WHERE uid = '${id}'`;
+            var sql2= `DELETE FROM picture WHERE uid = '${id}'`;
             database.query(sql1);
             database.query(sql2);
             break;
         case 'picture':
             field = 'pid';
-            let sql1= `DELETE FROM mark WHERE pid = '${id}'`;
+            var sql1= `DELETE FROM mark WHERE pid = '${id}'`;
             database.query(sql1);
             break;
         case 'mark':
