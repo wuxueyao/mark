@@ -172,11 +172,6 @@ async function delMsg(table,id){
  * @param {string} id 
  */
 async function editById(table,msg,id){
-    // table='picture';
-    // let msg =`pname = 'holi'`
-    // let msg =`note="第二次测试",coordinate = "{width:200,height:900}"`
-    // let msg =`uname="hilo",pass="123"`
-    // let id = '0001'
     var field;
     switch(table){
         case 'user':
@@ -190,7 +185,6 @@ async function editById(table,msg,id){
             break;
         default:
             break;
-
     }
     let sql = `UPDATE ${table} SET ${msg} WHERE ${field} = '${id}'`;
     return new Promise(resolve => {

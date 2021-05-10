@@ -21,11 +21,8 @@ router.use(bodyParser.json());
 
 //发送验证码
 router.post('/email',async (req,res,next)=>{  
-    // console.log(req.body);   
     var code = createCode();
-    // console.log('code',code);
     var result = await db.selectEmail(req.body.email);
-    // console.log(result)
     if(!result.length){
         info={
             code:0,
@@ -43,13 +40,11 @@ router.post('/email',async (req,res,next)=>{
         console.log('tcode',tcode)
         time = (new Date()).getTime();
         await sendmail(mail);
-        // console.log('验证码已发送')
     }else{
         info={
             code:1,
             msg:'该邮箱已注册过'           
         }
-        // console.log('该邮箱已注册过')
     }
     res.json(info);
 })

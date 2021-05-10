@@ -19,9 +19,24 @@ router.post('/show',async function(req,res,next){
     }
     res.json(message)
 })
+
+
 router.post('/',async function(req,res,next){
-    console.log(req.body);
-    
+    var uid = req.body.uid;
+    var msgarr = req.body.msg.split(',');
+    for(var i=0;i<msgarr.length;i++){
+        var a=msgarr[i].split('=');
+        a[1]=`"${a[1]}"`
+        msgarr[i]=`${a[0]}=${a[1]}`
+    }
+    var msg = msgarr.join(',')
+    var edit = await db.editById('user',msg,uid);
+    var data = await db.selectMsg('mark');
+    if(data.length == 0){
+        res.json(null)
+    }else{
+        res.json(data)
+    }
 })
 
 

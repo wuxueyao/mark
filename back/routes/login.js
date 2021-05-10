@@ -9,17 +9,13 @@ router.use(bodyParser.json());
 
 // 登录
 router.post('/',async function(req,res,next){
-    // console.log(req.body)
     var mail = req.body.email;
     var pass = req.body.pass;
     var selectEmail = await db.selectEmail(mail);
-    // console.log(selectEmail)
     if(!selectEmail.length){
         var message = {code:1,id:null,msg:"该邮箱未注册，请先注册"};
-        // console.log(message)
     }else{
         var data = await db.login(mail,pass);
-        // console.log(data)
         if(!data.length){
             var message = {code:1,msg:"邮箱或密码有误"}
         }else{
